@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta name="viewport" content="initial-scale=1.0">
+<title>Picker</title>
+<style>
+body {
+    background:#012;
+    color:#FFF;
+    font-family:verdana, sans-serif;
+    font-size:10pt;
+    margin:0;
+    padding:10px;
+}
+
+a:link, a:visited {
+    color:#008;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+a:active, a:hover {
+    color:#ACF;
+}
+
+.info {
+    font-weight:bold;
+}
+
+button {
+    font-family:inherit;
+    cursor:pointer;
+    border:0;
+    border-radius:3px;
+    padding:0.3em 0.5em;
+    background:#246;
+    color:#FFF;
+}
+
+button:hover {
+    background:#DDD;
+}
+
+button.disabled {
+    background:#357;
+    color:#8AC;
+    cursor:not-allowed;
+}
+
+button.disabled:hover {
+    background:#DDD;
+}
+
+#container {
+    position:relative;
+    margin-left:-10px;
+    margin-right:-10px;
+    padding:10px;
+    overflow:hidden;
+}
+
+@media (min-width:1024px) {
+    /* Put the found favorites beside the picking div when the window is sufficiently large */
+    #picking {
+        float:left;
+        width:636px;
+    }
+
+    #secondary {
+        margin-left:646px;
+    }
+    
+    #secondary, #picking {
+        transition:margin-left 0.4s;
+    }
+
+    #picking.collapsed {
+        margin-left:-100%;
+        z-index:-1;
+    }
+
+    #secondary.expanded {
+        margin-left:0;
+    }
+
+    #expand-favorites {
+        display:inline-block;
+    }
+
+    .tabs {
+        padding-left:0;
+    }
+}
+
+@media (min-width:1300px) {
+    /* Once we get to the point where 636px is less than half of the width of the screen, make the picking div just take up half */
+    #picking {
+        width:60%;
+    }
+
+    #secondary {
+        margin-left:41%;
+    }
+}
+
+#pick {
+    background:#38A;
+    color:#FFF;
+    font-size:larger;
+    font-weight:bold;
+    width:6em;
+    border-radius:5px;
+    margin-right:10px;
+}
+
+#pick.disabled {
+    background:#ACF;
+}
+
+#pick:hover {
+    background:#ACF;
+}
+
+.item-list {
+    padding:0;
+    list-style-type:none;
+    line-height:130px;
+}
+
+.item-list li {
+    margin:0;
+    display:inline-block;
+    height:130px;
+    width:130px;
+    line-height:130px;
+    border:3px solid transparent;
+    text-align:center;
+    position:relative;
+    vertical-align:top;
+    overflow:hidden;
+    border-radius:100%;
+    background:#124;
+    color:#FFF;
+}
+
+.item-list li img {
+    vertical-align:middle;
+    max-height:100%;
+    max-width:100%;
+}
+
+.item-list li span {
+    display:inline-block;
+    vertical-align:middle;
+    line-height:1.2;
+}
+
+@media (max-width:656px) {
+    .item-list {
+        line-height:120px;
+    }
+
+    .item-list li {
+        height:81px;
+        width:81px;
+    }
+
+    .item-list li span {
+        height:75px;
+        width:75px;
+        padding:3px;
+    }
+
+    .item-list li img {
+        top:0px;
+        left:-2px;
+        max-height:112%;
+        max-width:112%;
+    }
+}
+
+@media (max-width:456px) {
+    .item-list {
+        line-height:48px;
+    }
+
+    .item-list li {
+        height:54px;
+        width:54px;
+    }
+
+    .item-list li span {
+        height:48px;
+        width:48px;
+        padding:3px;
+    }
+
+    .item-list li img {
+        top:-1px;
+        left:-1px;
+        max-height:112%;
+        max-width:112%;
+    }
+}
+#evaluating li {
+    cursor:pointer;
+}
+
+#favorites li {
+    cursor:move;
+}
+
+.item-list li:hover {
+    background:#357;
+}
+
+.item-list.sorting li:hover {
+    background:#357;
+}
+
+#evaluating li.selected {
+    border:3px solid #AEF;
+}
+
+#evaluating, #buttons {
+    text-align:center;
+    margin:auto;
+}
+
+#evaluating li.notice {
+    width:auto;
+    height:auto;
+    max-width:260px;
+    margin:auto;
+    background:#357;
+    border-radius:10px;
+    padding:30px 30px;
+    color:#FFF;
+    text-align:center;
+    line-height:1.4;
+    cursor:auto;
+    font-size:10pt;
+}
+
+#buttons {
+    margin-top:30px;
+    position:relative;
+    z-index:3;
+}
+
+#max-batch-size {
+    width:3em;
+}
+
+.picker-info {
+    text-align:center;
+    font-size:smaller;
+}
+
+#progress-bar {
+    display:block;
+    margin:auto;
+    height:15px;
+    width:150px;
+    margin-top:5px;
+    background:#CDF;
+    vertical-align:middle;
+    transition: transform .2s ease-out;
+}
+
+#progress-bar span {
+    display:block;
+    height:100%;
+    width:0;
+    background:#58F;
+}
+
+.help-text {
+    display:block;
+    font-size:smaller;
+}
+</style>
+</head>
+<body>
+<h1>Favourite Genshin Picker</h1>
+
+<div id="container">
+
+<div id="picking">
+<ul id="evaluating" class="item-list">
+</ul>
+
+<p id="buttons"><button id="pick">Pick</button> <button id="pass">Pass</button> <button id="undo">Undo</button> <button id="redo">Redo</button></p>
+</div>
+
+<div id="secondary">
+<h2>Found favorites</h2>
+<ol id="favorites" class="item-list">
+</div>
+<div id="secondary">
+</p>
+<p>Include Elements:
+<label><input type="checkbox" name="type" class="types" value="anemo"> Anemo</label>
+<label><input type="checkbox" name="type" class="types" value="pyro"> Pyro</label>
+<label><input type="checkbox" name="type" class="types" value="hydro"> Hydro</label>
+<label><input type="checkbox" name="type" class="types" value="electro"> Electro</label>
+<label><input type="checkbox" name="type" class="types" value="dendro"> Dendro</label>
+<label><input type="checkbox" name="type" class="types" value="cryo"> Cryo</label>
+</p>
+<label><input type="checkbox" name="type" class="types" value="geo"> Geo</label>
+</p>
+</p>
+<p>Include Nations:
+<label><input type="checkbox" name="gen" class="gens" value="1"> Mondstadt</label>
+<label><input type="checkbox" name="gen" class="gens" value="2"> Liyue</label>
+<label><input type="checkbox" name="gen" class="gens" value="3"> Inazuma</label>
+<label><input type="checkbox" name="gen" class="gens" value="4"> Sumeru</label>
+<label><input type="checkbox" name="gen" class="gens" value="5"> Fontaine</label>
+</p>
+<label><input type="checkbox" name="gen" class="gens" value="6"> Natlan</label>
+<label><input type="checkbox" name="gen" class="gens" value="7"> Snezhnaya</label>
+<label><input type="checkbox" name="gen" class="gens" value="8"> Unafiliated</label>
+</p>
+<p>Include Rarity:
+<label><input type="checkbox" name="star" class="stars" value="5*"> 5*</label>
+<label><input type="checkbox" name="star" class="stars" value="4*"> 4*</label>
+</p>
+<p><button class="reset">Reset</button></p>
+</div>
+</div>
+</div>
+</ol>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="picker.js"></script>
+<script src="picker-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.7.0/Sortable.min.js"></script>
+<script>
+'use strict';
+
+var items = [
+	{id: '001', name: 'Jean', image: 'Jean.png', type1: 'anemo', gen: '1', star: '5*'},
+	{id: '002', name: 'Lisa', image: 'Lisa.png', type1: 'electro', gen: '1', star: '4*'},
+	{id: '003', name: 'Barbara', image: 'Barbara.png', type1: 'hydro', gen: '1', star: '4*'},
+	{id: '004', name: 'Kaeya', image: 'Kaeya.png', type1: 'cryo', gen: '1', star: '4*'},
+	{id: '005', name: 'Diluc', image: 'Diluc.png', type1: 'pyro', gen: '1', star: '5*'},
+	{id: '006', name: 'Razor', image: 'Razor.png', type1: 'electro', gen: '1', star: '4*'},
+	{id: '007', name: 'Amber', image: 'Amber.png', type1: 'pyro', gen: '1', star: '4*'},
+	{id: '008', name: 'Venti', image: 'Venti.png', type1: 'anemo', gen: '1', star: '5*'},
+	{id: '009', name: 'Xiangling', image: 'Xiangling.png', type1: 'pyro', gen: '2', star: '4*'},
+	{id: '010', name: 'Beidou', image: 'Beidou.png', type1: 'electro', gen: '2', star: '4*'},
+	{id: '011', name: 'Xingqiu', image: 'Xingqiu.png', type1: 'hydro', gen: '2', star: '4*'},
+	{id: '012', name: 'Xiao', image: 'Xiao.png', type1: 'anemo', gen: '2', star: '5*'},
+	{id: '013', name: 'Ningguang', image: 'Ningguang.png', type1: 'geo', gen: '2', star: '4*'},
+	{id: '014', name: 'Klee', image: 'Klee.png', type1: 'pyro', gen: '1', star: '5*'},
+	{id: '015', name: 'Zhongli', image: 'Zhongli.png', type1: 'geo', gen: '2', star: '5*'},
+	{id: '016', name: 'Fischl', image: 'Fischl.png', type1: 'electro', gen: '1', star: '4*'},
+	{id: '017', name: 'Bennett', image: 'Bennett.png', type1: 'pyro', gen: '1', star: '4*'},
+	{id: '018', name: 'Tartaglia', image: 'Tartaglia.png', type1: 'hydro', gen: '7', star: '5*'},
+	{id: '019', name: 'Noelle', image: 'Noelle.png', type1: 'geo', gen: '1', star: '4*'},
+	{id: '020', name: 'Qiqi', image: 'Qiqi.png', type1: 'cryo', gen: '2', star: '5*'},
+	{id: '021', name: 'Chongyun', image: 'Chongyun.png', type1: 'cryo', gen: '2', star: '4*'},
+	{id: '022', name: 'Ganyu', image: 'Ganyu.png', type1: 'cryo', gen: '2', star: '5*'},
+	{id: '023', name: 'Albedo', image: 'Albedo.png', type1: 'geo', gen: '1', star: '5*'},
+	{id: '024', name: 'Diona', image: 'Diona.png', type1: 'cryo', gen: '1', star: '4*'},
+	{id: '025', name: 'Mona', image: 'Mona.png', type1: 'hydro', gen: '1', star: '5*'},
+	{id: '026', name: 'Keqing', image: 'Keqing.png', type1: 'electro', gen: '2', star: '5*'},
+	{id: '027', name: 'Sucrose', image: 'Sucrose.png', type1: 'anemo', gen: '1', star: '4*'},
+	{id: '028', name: 'Xinyan', image: 'Xinyan.png', type1: 'pyro', gen: '2', star: '4*'},
+	{id: '029', name: 'Rosaria', image: 'Rosaria.png', type1: 'cryo', gen: '1', star: '4*'},
+	{id: '030', name: 'Hu Tao', image: 'Tao.png', type1: 'pyro', gen: '2', star: '5*'},
+	{id: '031', name: 'Kazuha', image: 'Kazuha.png', type1: 'anemo', gen: '3', star: '5*'},
+	{id: '032', name: 'Yanfei', image: 'Yanfei.png', type1: 'pyro', gen: '2', star: '4*'},
+	{id: '033', name: 'Ayaka', image: 'Ayaka.png', type1: 'cryo', gen: '3', star: '5*'},
+	{id: '034', name: 'Yoimiya', image: 'Yoimiya.png', type1: 'pyro', gen: '3', star: '5*'},
+	{id: '035', name: 'Thoma', image: 'Thoma.png', type1: 'pyro', gen: '3', star: '4*'},
+	{id: '036', name: 'Eula', image: 'Eula.png', type1: 'cryo', gen: '1', star: '5*'},
+	{id: '037', name: 'Raiden Shogun', image: 'Raiden.png', type1: 'electro', gen: '3', star: '5*'},
+	{id: '038', name: 'Sayu', image: 'Sayu.png', type1: 'anemo', gen: '3', star: '4*'},
+	{id: '039', name: 'Kokomi', image: 'Kokomi.png', type1: 'hydro', gen: '3', star: '5*'},
+	{id: '040', name: 'Gorou', image: 'Gorou.png', type1: 'geo', gen: '3', star: '4*'},
+	{id: '041', name: 'Sara', image: 'Sara.png', type1: 'electro', gen: '3', star: '4*'},
+	{id: '042', name: 'Itto', image: 'Itto.png', type1: 'geo', gen: '3', star: '5*'},
+	{id: '043', name: 'Miko', image: 'Miko.png', type1: 'electro', gen: '3', star: '5*'},
+	{id: '044', name: 'Heizou', image: 'Heizou.png', type1: 'anemo', gen: '3', star: '4*'},
+	{id: '045', name: 'Yelan', image: 'Yelan.png', type1: 'hydro', gen: '2', star: '5*'},
+	{id: '046', name: 'Kirara', image: 'Kirara.png', type1: 'dendro', gen: '3', star: '4*'},
+	{id: '047', name: 'Aloy', image: 'Aloy.png', type1: 'cryo', gen: '8', star: '5*'},
+	{id: '048', name: 'Shenhe', image: 'Shenhe.png', type1: 'cryo', gen: '2', star: '5*'},
+	{id: '049', name: 'Yunjin', image: 'Yunjin.png', type1: 'geo', gen: '2', star: '4*'},
+	{id: '050', name: 'Shinobu', image: 'Shinobu.png', type1: 'electro', gen: '3', star: '4*'},
+	{id: '051', name: 'Ayato', image: 'Ayato.png', type1: 'hydro', gen: '3', star: '5*'},
+	{id: '052', name: 'Collei', image: 'Collei.png', type1: 'dendro', gen: '4', star: '4*'},
+	{id: '053', name: 'Dori', image: 'Dori.png', type1: 'electro', gen: '4', star: '4*'},
+	{id: '054', name: 'Tighnari', image: 'Tighnari.png', type1: 'dendro', gen: '4', star: '5*'},
+	{id: '055', name: 'Nilou', image: 'Nilou.png', type1: 'hydro', gen: '4', star: '5*'},
+	{id: '056', name: 'Cyno', image: 'Cyno.png', type1: 'electro', gen: '4', star: '5*'},
+	{id: '057', name: 'Candace', image: 'Candace.png', type1: 'hydro', gen: '4', star: '4*'},
+	{id: '058', name: 'Nahida', image: 'Nahida.png', type1: 'dendro', gen: '4', star: '5*'},
+	{id: '059', name: 'Layla', image: 'Layla.png', type1: 'cryo', gen: '4', star: '4*'},
+	{id: '060', name: 'Wanderer', image: 'Wanderer.png', type1: 'anemo', gen: '4', star: '5*'},
+	{id: '061', name: 'Faruzan', image: 'Faruzan.png', type1: 'anemo', gen: '4', star: '4*'},
+	{id: '062', name: 'Yaoyao', image: 'Yaoyao.png', type1: 'dendro', gen: '2', star: '4*'},
+	{id: '063', name: 'Alhaitham', image: 'Alhaitham.png', type1: 'dendro', gen: '4', star: '5*'},
+	{id: '064', name: 'Dehya', image: 'Dehya.png', type1: 'pyro', gen: '4', star: '5*'},
+	{id: '065', name: 'Mika', image: 'Mika.png', type1: 'cryo', gen: '1', star: '4*'},
+	{id: '066', name: 'Kaveh', image: 'Kaveh.png', type1: 'dendro', gen: '4', star: '4*'},
+	{id: '067', name: 'Baizhu', image: 'Baizhu.png', type1: 'dendro', gen: '2', star: '5*'},
+	{id: '068', name: 'Lynette', image: 'Lynette.png', type1: 'anemo', gen: '5', star: '4*'},
+	{id: '069', name: 'Lyney', image: 'Lyney.png', type1: 'pyro', gen: '5', star: '5*'},
+	{id: '070', name: 'Freminet', image: 'Freminet.png', type1: 'cryo', gen: '5', star: '4*'},
+	{id: '071', name: 'Wriothesley', image: 'Wriothesley.png', type1: 'cryo', gen: '5', star: '5*'},
+	{id: '072', name: 'Neuvillette', image: 'Neuvillette.png', type1: 'hydro', gen: '5', star: '5*'},
+	{id: '073', name: 'Charlotte', image: 'Charlotte.png', type1: 'cryo', gen: '5', star: '4*'},
+	{id: '074', name: 'Furina', image: 'Furina.png', type1: 'hydro', gen: '5', star: '5*'}
+      ]
+
+var myPicker = new picker.Picker({
+    items: items,
+    localStorageKey: 'picker-state',
+    defaultSettings: {
+        types: ["anemo", "pyro", "hydro", "electro", "dendro", "cryo", "geo"],
+        gens: ["1", "2", "3", "4", "5", "6", "7", "8"],
+        stars: ["4*", "5*"],
+	minBatchSize: 2,
+	maxBatchSize: 12
+    },
+    shouldIncludeItem: function(item, settings) {
+        return (settings.gens.indexOf(item.gen) !== -1) && (settings.types.indexOf(item.type1) !== -1) && (settings.stars.indexOf(item.star) !== -1);
+    }
+});
+
+var pickerUI = new PickerUI(myPicker, {
+    elements: {
+        pick: "#pick",
+        pass: "#pass",
+        undo: "#undo",
+        redo: "#redo",
+        reset: ".reset",
+        evaluating: "#evaluating",
+        favorites: "#favorites",
+        settings: {
+            types: '.types',
+            gens: '.gens',
+            stars: '.stars'
+        }
+    }
+});
+
+pickerUI.initialize();
+
+/* Sortable favorites - you can safely remove this, and the Sortable.min.js script, if you don't want to be able to sort your favorite list. */
+var sortable = new Sortable(pickerUI.elem.favorites.get(0), {
+    draggable: '.item',
+    animation: 100,
+    onStart: function() {
+        pickerUI.elem.favorites.addClass("sorting");
+    },
+    onEnd: function() {
+        pickerUI.elem.favorites.removeClass("sorting");
+    },
+    onUpdate: function() {
+        myPicker.setFavorites(pickerUI.elem.favorites.children().map(function() {
+            return pickerUI.getItem(this);
+        }).get());
+        pickerUI.update(true);
+    }
+});
+/* End sortable favorites */
+
+/* PROGRESS BAR */
+
+function updateProgressBar(value, updateType) {
+    var $progressBar = $("#progress-bar span");
+    var $favorite;
+
+    if (['pick', 'undo', 'redo'].indexOf(updateType) !== -1) {
+        if (!value && updateType !== 'undo') {
+            // We just found a favorite!
+            $favorite = pickerUI.elem.favorites.children('li').last().addClass("no-animate hidden");
+            $progressBar.animate({ width: '100%' }, 400, function() {
+                $progressBar.parent().css({ transform: 'scale(1.1)'});
+                setTimeout(function() {
+                    $progressBar.parent().css({ transform: 'scale(1)'});
+                    $progressBar.width(0);
+                    $favorite.removeClass("no-animate hidden");
+                }, 200);
+            });
+        } else {
+            if (!$progressBar.width() && updateType === 'undo') {
+                $progressBar.width("100%")
+            }
+            $progressBar.animate({ width: value + '%' }, 400);
+        }
+    } else {
+        $progressBar.width(value + '%');
+    }
+}
+
+
+</script>
+</body>
+</html>
