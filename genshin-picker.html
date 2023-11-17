@@ -3,12 +3,12 @@
 <head>
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <meta name="viewport" content="initial-scale=1.0">
-<title>Picker</title>
+<title>Favourite Genshin Character Picker</title>
 <style>
 body {
-    background:#012;
+    background:#2D2B28;
     color:#FFF;
-    font-family:verdana, sans-serif;
+    font-family:Tahoma,Helvetica,Arial,sans-serif;
     font-size:10pt;
     margin:0;
     padding:10px;
@@ -34,22 +34,22 @@ button {
     border:0;
     border-radius:3px;
     padding:0.3em 0.5em;
-    background:#246;
+    background:#8E7E5F;
     color:#FFF;
 }
 
 button:hover {
-    background:#DDD;
+    background:#105593;
 }
 
 button.disabled {
-    background:#357;
-    color:#8AC;
+    background:#565452;
+    color:#000;
     cursor:not-allowed;
 }
 
 button.disabled:hover {
-    background:#DDD;
+    background:#105593;
 }
 
 #container {
@@ -105,8 +105,8 @@ button.disabled:hover {
 }
 
 #pick {
-    background:#38A;
-    color:#FFF;
+    background:#FC3;
+    color:#000;
     font-size:larger;
     font-weight:bold;
     width:6em;
@@ -115,11 +115,11 @@ button.disabled:hover {
 }
 
 #pick.disabled {
-    background:#ACF;
+    background:#D38D50;
 }
 
 #pick:hover {
-    background:#ACF;
+    background:#D38D50;
 }
 
 .item-list {
@@ -140,7 +140,7 @@ button.disabled:hover {
     vertical-align:top;
     overflow:hidden;
     border-radius:100%;
-    background:#124;
+    background:#1F1F1F;
     color:#FFF;
 }
 
@@ -174,9 +174,9 @@ button.disabled:hover {
 
     .item-list li img {
         top:0px;
-        left:-2px;
-        max-height:112%;
-        max-width:112%;
+        left:0px;
+        max-height:100%;
+        max-width:100%;
     }
 }
 
@@ -197,10 +197,10 @@ button.disabled:hover {
     }
 
     .item-list li img {
-        top:-1px;
-        left:-1px;
-        max-height:112%;
-        max-width:112%;
+        top:0px;
+        left:0px;
+        max-height:100%;
+        max-width:100%;
     }
 }
 #evaluating li {
@@ -212,15 +212,15 @@ button.disabled:hover {
 }
 
 .item-list li:hover {
-    background:#357;
+    background:#565452;
 }
 
 .item-list.sorting li:hover {
-    background:#357;
+    background:#565452;
 }
 
 #evaluating li.selected {
-    border:3px solid #AEF;
+    border:3px solid #FC3;
 }
 
 #evaluating, #buttons {
@@ -233,7 +233,7 @@ button.disabled:hover {
     height:auto;
     max-width:260px;
     margin:auto;
-    background:#357;
+    background:#565452;
     border-radius:10px;
     padding:30px 30px;
     color:#FFF;
@@ -283,15 +283,15 @@ button.disabled:hover {
 </style>
 </head>
 <body>
-<h1>Favourite Genshin Character Picker</h1>
+<h1 style="text-align: center; border-radius: 10px; padding: 10px; background: #D3BC8D;"><span style="font-weight:85w; color: #105593">FAVOURITE <img src='https://cdn2.steamgriddb.com/file/sgdb-cdn/logo_thumb/944eefd22dfe99fe7631b8ecc732c7cf.png' height='30'> PLAYABLE CHARACTER PICKER</span></h1>
 
 <p>For each group of characters presented to you, click one or more of your favorites from that group and press the "Pick" button. Double-clicking a character will count as only picking that character from the group presented. Eventually, your favorite characters will start appearing under "Found Favorites". You can continue as long as you like to construct an arbitrarily long list of your favorite characters.</p>
 
 <p>In principle, the result will be perfectly accurate, provided you pick consistently - you'll correctly get your second favorite second, even if it's pitted against your absolute favorite early on, for instance. You can reorder your favorites after they've been added onto the list by dragging the circles into the desired order.</p>
 
-<p>Various filtering and presentation options for the picker can be found in the "Options" tab next to "Found Favorites" below.</p>
+<p>Various filtering and presentation options for the picker can be found in the "Options" tab under "Found Favorites" below.</p>
 
-<p>For ease of categorisation, the Travellers (Aether and Lumine) are considered to use the <span style="color: #74C2A8">Anemo</span> element.</p>
+<p>The Travellers (Aether and Lumine) are considered to use the <img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Anemo.png' width='20'/> <span style="color: #74C2A8">Anemo</span> element. If you do not recognise a character from the artwork displayed, mousing over the icon will display their name.</p>
 
 <div id="container">
 
@@ -303,41 +303,41 @@ button.disabled:hover {
 </div>
 
 <div id="secondary">
-<h2 style="padding: 10px; background: #335577;">Found Favorites</h2>
+<h2 style="border-radius: 10px; padding: 10px; background: #D3BC8D;">Found Favorites</h2>
 <ol id="favorites" class="item-list">
 </div>
-<div id="secondary">
 </p>
 <br />
 <hr />
-<h3 style="padding: 10px; background: #224466;">Options</h3>
+<div id="secondary" style="border-radius: 10px; padding: 1px; background: #1F1F1F;">
+<h3 style="padding: 10px; background: #D3BC8D;">Options</h3>
 <p>Include Elements:
-<label style="color: #74C2A8"><input type="checkbox" name="type" class="types" value="anemo"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Anemo.png' width='20'/> Anemo </label>
-<label style="color: #EF7938"><input type="checkbox" name="type" class="types" value="pyro"><img src=' Pyro</label>
-<label style="color: #4CC2F1"><input type="checkbox" name="type" class="types" value="hydro"> Hydro</label>
-<label style="color: #AF8EC1"><input type="checkbox" name="type" class="types" value="electro"> Electro</label>
-<label style="color: #A5C83B"><input type="checkbox" name="type" class="types" value="dendro"> Dendro</label>
-<label style="color: #9FD6E3"><input type="checkbox" name="type" class="types" value="cryo"><img src='https://static.wikia.nocookie.net/gensin-impact/images/7/72/Element_Cryo.svg/revision/latest?cb=20220119211508' width='20' Cryo</label>
+<label style="color: #74C2A8"><input type="checkbox" name="type" class="types" value="anemo"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Anemo.png' width='20'/> Anemo </label>
+<label style="color: #EF7938"><input type="checkbox" name="type" class="types" value="pyro"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Pyro.png' width='20'/> Pyro</label>
+<label style="color: #4CC2F1"><input type="checkbox" name="type" class="types" value="hydro"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Hydro.png' width='20'/> Hydro</label>
+<label style="color: #AF8EC1"><input type="checkbox" name="type" class="types" value="electro"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Electro.png' width='20'/> Electro</label>
 </p>
-<label style="color: #FAB632"><input type="checkbox" name="type" class="types" value="geo"> Geo</label>
+<label style="color: #A5C83B"><input type="checkbox" name="type" class="types" value="dendro"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Dendro.png' width='20'/> Dendro</label>
+<label style="color: #9FD6E3"><input type="checkbox" name="type" class="types" value="cryo"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Cryo.png' width='20'/> Cryo</label>
+<label style="color: #FAB632"><input type="checkbox" name="type" class="types" value="geo"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Geo.png' width='20'/> Geo</label>
 </p>
 </p>
 <p>Include Nations:
-<label><input type="checkbox" name="gen" class="gens" value="1"> Mondstadt</label>
-<label><input type="checkbox" name="gen" class="gens" value="2"> Liyue</label>
-<label><input type="checkbox" name="gen" class="gens" value="3"> Inazuma</label>
-<label><input type="checkbox" name="gen" class="gens" value="4"> Sumeru</label>
-<label><input type="checkbox" name="gen" class="gens" value="5"> Fontaine</label>
+<label><input type="checkbox" name="gen" class="gens" value="1"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.3/Mondstadt.png' width='20'/> Mondstadt</label>
+<label><input type="checkbox" name="gen" class="gens" value="2"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.3/Liyue.png' width='20'/> Liyue</label>
+<label><input type="checkbox" name="gen" class="gens" value="3"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.3/Inazuma.png' width='20'/> Inazuma</label>
+<label><input type="checkbox" name="gen" class="gens" value="4"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.3/Sumeru.png' width='20'/> Sumeru</label>
 </p>
-<label><input type="checkbox" name="gen" class="gens" value="6"> Natlan</label>
-<label><input type="checkbox" name="gen" class="gens" value="7"> Snezhnaya</label>
-<label><input type="checkbox" name="gen" class="gens" value="8"> Unafiliated</label>
+<label><input type="checkbox" name="gen" class="gens" value="5"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.3/Fontaine.png' width='20'/> Fontaine</label>
+<label><input type="checkbox" name="gen" class="gens" value="6"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.3/Unknown.png' width='20'/> Natlan</label>
+<label><input type="checkbox" name="gen" class="gens" value="7"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.3/Unknown.png' width='20'/> Snezhnaya</label>
+<label><input type="checkbox" name="gen" class="gens" value="8"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.3/Unknown.png' width='20'/> Unafiliated</label>
 </p>
 <p>Include Rarity:
-<label><input type="checkbox" name="star" class="stars" value="5*"> 5*</label>
-<label><input type="checkbox" name="star" class="stars" value="4*"> 4*</label>
+<label><input type="checkbox" name="star" class="stars" value="5*"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.3/5 Star.png' width='20'/> 5 Star</label>
+<label><input type="checkbox" name="star" class="stars" value="4*"><img src='https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.3/4 Star.png' width='20'/> 4 Star</label>
 </p>
-<p><button class="reset">Reset</button></p>
+<p><button style="padding: 5px; background: #D3BC8D;" class="reset">Reset</button></p>
 </div>
 </div>
 </div>
@@ -351,84 +351,84 @@ button.disabled:hover {
 'use strict';
 
 var items = [
-	{id: '001', name: 'Jean', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '1', star: '5*'},
-	{id: '002', name: 'Lisa', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '1', star: '4*'},
-	{id: '003', name: 'Barbara', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'hydro', gen: '1', star: '4*'},
-	{id: '004', name: 'Kaeya', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '1', star: '4*'},
-	{id: '005', name: 'Diluc', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '1', star: '5*'},
-	{id: '006', name: 'Razor', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '1', star: '4*'},
-	{id: '007', name: 'Amber', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '1', star: '4*'},
-	{id: '008', name: 'Venti', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '1', star: '5*'},
-	{id: '009', name: 'Xiangling', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '2', star: '4*'},
-	{id: '010', name: 'Beidou', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '2', star: '4*'},
+	{id: '001', name: 'Jean', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Jean.png', type1: 'anemo', gen: '1', star: '5*'},
+	{id: '002', name: 'Lisa', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Lisa.png', type1: 'electro', gen: '1', star: '4*'},
+	{id: '003', name: 'Barbara', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Barbara.png', type1: 'hydro', gen: '1', star: '4*'},
+	{id: '004', name: 'Kaeya', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Kaeya.png', type1: 'cryo', gen: '1', star: '4*'},
+	{id: '005', name: 'Diluc', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Diluc.png', type1: 'pyro', gen: '1', star: '5*'},
+	{id: '006', name: 'Razor', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Razor.png', type1: 'electro', gen: '1', star: '4*'},
+	{id: '007', name: 'Amber', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Amber.png', type1: 'pyro', gen: '1', star: '4*'},
+	{id: '008', name: 'Venti', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Venti.png', type1: 'anemo', gen: '1', star: '5*'},
+	{id: '009', name: 'Xiangling', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiangling.png', type1: 'pyro', gen: '2', star: '4*'},
+	{id: '010', name: 'Beidou', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Beidou.png', type1: 'electro', gen: '2', star: '4*'},
 	{id: '011', name: 'Xingqiu', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xingqiu.png', type1: 'hydro', gen: '2', star: '4*'},
 	{id: '012', name: 'Xiao', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '2', star: '5*'},
-	{id: '013', name: 'Ningguang', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'geo', gen: '2', star: '4*'},
-	{id: '014', name: 'Klee', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '1', star: '5*'},
-	{id: '015', name: 'Zhongli', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'geo', gen: '2', star: '5*'},
-	{id: '016', name: 'Fischl', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '1', star: '4*'},
-	{id: '017', name: 'Bennett', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '1', star: '4*'},
-	{id: '018', name: 'Tartaglia', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'hydro', gen: '7', star: '5*'},
-	{id: '019', name: 'Noelle', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'geo', gen: '1', star: '4*'},
-	{id: '020', name: 'Qiqi', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '2', star: '5*'},
-	{id: '021', name: 'Chongyun', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '2', star: '4*'},
-	{id: '022', name: 'Ganyu', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '2', star: '5*'},
-	{id: '023', name: 'Albedo', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'geo', gen: '1', star: '5*'},
-	{id: '024', name: 'Diona', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '1', star: '4*'},
-	{id: '025', name: 'Mona', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'hydro', gen: '1', star: '5*'},
-	{id: '026', name: 'Keqing', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '2', star: '5*'},
-	{id: '027', name: 'Sucrose', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '1', star: '4*'},
-	{id: '028', name: 'Xinyan', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '2', star: '4*'},
-	{id: '029', name: 'Rosaria', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '1', star: '4*'},
-	{id: '030', name: 'Hu Tao', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '2', star: '5*'},
-	{id: '031', name: 'Kaedehara Kazuha', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '3', star: '5*'},
-	{id: '032', name: 'Yanfei', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '2', star: '4*'},
-	{id: '033', name: 'Kamisato Ayaka', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '3', star: '5*'},
-	{id: '034', name: 'Yoimiya', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '3', star: '5*'},
-	{id: '035', name: 'Thoma', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '3', star: '4*'},
-	{id: '036', name: 'Eula', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '1', star: '5*'},
-	{id: '037', name: 'Raiden Shogun', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '3', star: '5*'},
-	{id: '038', name: 'Sayu', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '3', star: '4*'},
-	{id: '039', name: 'Sangonomiya Kokomi', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'hydro', gen: '3', star: '5*'},
-	{id: '040', name: 'Gorou', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'geo', gen: '3', star: '4*'},
-	{id: '041', name: 'Sara', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '3', star: '4*'},
-	{id: '042', name: 'Arataki Itto', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'geo', gen: '3', star: '5*'},
-	{id: '043', name: 'Yae Miko', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '3', star: '5*'},
-	{id: '044', name: 'Shikanoin Heizou', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '3', star: '4*'},
-	{id: '045', name: 'Yelan', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'hydro', gen: '2', star: '5*'},
-	{id: '046', name: 'Kirara', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'dendro', gen: '3', star: '4*'},
-	{id: '047', name: 'Aloy', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '8', star: '5*'},
-	{id: '048', name: 'Shenhe', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '2', star: '5*'},
-	{id: '049', name: 'Yunjin', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'geo', gen: '2', star: '4*'},
-	{id: '050', name: 'Kuki Shinobu', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '3', star: '4*'},
-	{id: '051', name: 'Kamisato Ayato', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'hydro', gen: '3', star: '5*'},
-	{id: '052', name: 'Collei', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'dendro', gen: '4', star: '4*'},
-	{id: '053', name: 'Dori', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '4', star: '4*'},
-	{id: '054', name: 'Tighnari', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'dendro', gen: '4', star: '5*'},
-	{id: '055', name: 'Nilou', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'hydro', gen: '4', star: '5*'},
-	{id: '056', name: 'Cyno', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'electro', gen: '4', star: '5*'},
-	{id: '057', name: 'Candace', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'hydro', gen: '4', star: '4*'},
-	{id: '058', name: 'Nahida', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'dendro', gen: '4', star: '5*'},
-	{id: '059', name: 'Layla', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '4', star: '4*'},
-	{id: '060', name: 'Wanderer', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '4', star: '5*'},
-	{id: '061', name: 'Faruzan', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '4', star: '4*'},
-	{id: '062', name: 'Yaoyao', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'dendro', gen: '2', star: '4*'},
-	{id: '063', name: 'Alhaitham', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'dendro', gen: '4', star: '5*'},
-	{id: '064', name: 'Dehya', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '4', star: '5*'},
-	{id: '065', name: 'Mika', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '1', star: '4*'},
-	{id: '066', name: 'Kaveh', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'dendro', gen: '4', star: '4*'},
-	{id: '067', name: 'Baizhu', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'dendro', gen: '2', star: '5*'},
-	{id: '068', name: 'Lynette', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '5', star: '4*'},
-	{id: '069', name: 'Lyney', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '5', star: '5*'},
-	{id: '070', name: 'Freminet', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '5', star: '4*'},
-	{id: '071', name: 'Wriothesley', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '5', star: '5*'},
-	{id: '072', name: 'Neuvillette', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'hydro', gen: '5', star: '5*'},
-	{id: '073', name: 'Charlotte', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'cryo', gen: '5', star: '4*'},
-	{id: '074', name: 'Furina', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'hydro', gen: '5', star: '5*'},
-	{id: '075', name: 'Navia', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'geo', gen: '5', star: '5*'},
-	{id: '076', name: 'Chevreuse', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'pyro', gen: '5', star: '4*'},
-	{id: '077', name: 'Aether', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '8', star: '5*'},
-	{id: '078', name: 'Lumine', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xiao.png', type1: 'anemo', gen: '8', star: '5*'}
+	{id: '013', name: 'Ningguang', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Ningguang.png', type1: 'geo', gen: '2', star: '4*'},
+	{id: '014', name: 'Klee', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Klee.png', type1: 'pyro', gen: '1', star: '5*'},
+	{id: '015', name: 'Zhongli', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Zhongli.png', type1: 'geo', gen: '2', star: '5*'},
+	{id: '016', name: 'Fischl', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Fischl.png', type1: 'electro', gen: '1', star: '4*'},
+	{id: '017', name: 'Bennett', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Bennett.png', type1: 'pyro', gen: '1', star: '4*'},
+	{id: '018', name: 'Tartaglia', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Tartaglia.png', type1: 'hydro', gen: '7', star: '5*'},
+	{id: '019', name: 'Noelle', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Noelle.png', type1: 'geo', gen: '1', star: '4*'},
+	{id: '020', name: 'Qiqi', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Qiqi.png', type1: 'cryo', gen: '2', star: '5*'},
+	{id: '021', name: 'Chongyun', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Chongyun.png', type1: 'cryo', gen: '2', star: '4*'},
+	{id: '022', name: 'Ganyu', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Ganyu.png', type1: 'cryo', gen: '2', star: '5*'},
+	{id: '023', name: 'Albedo', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Albedo.png', type1: 'geo', gen: '1', star: '5*'},
+	{id: '024', name: 'Diona', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Diona.png', type1: 'cryo', gen: '1', star: '4*'},
+	{id: '025', name: 'Mona', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Mona.png', type1: 'hydro', gen: '1', star: '5*'},
+	{id: '026', name: 'Keqing', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Keqing.png', type1: 'electro', gen: '2', star: '5*'},
+	{id: '027', name: 'Sucrose', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Sucrose.png', type1: 'anemo', gen: '1', star: '4*'},
+	{id: '028', name: 'Xinyan', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Xinyan.png', type1: 'pyro', gen: '2', star: '4*'},
+	{id: '029', name: 'Rosaria', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Rosaria.png', type1: 'cryo', gen: '1', star: '4*'},
+	{id: '030', name: 'Hu Tao', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Tao.png', type1: 'pyro', gen: '2', star: '5*'},
+	{id: '031', name: 'Kaedehara Kazuha', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Kazuha.png', type1: 'anemo', gen: '3', star: '5*'},
+	{id: '032', name: 'Yanfei', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Yanfei.png', type1: 'pyro', gen: '2', star: '4*'},
+	{id: '033', name: 'Kamisato Ayaka', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Ayaka.png', type1: 'cryo', gen: '3', star: '5*'},
+	{id: '034', name: 'Yoimiya', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Yoimiya.png', type1: 'pyro', gen: '3', star: '5*'},
+	{id: '035', name: 'Thoma', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Thoma.png', type1: 'pyro', gen: '3', star: '4*'},
+	{id: '036', name: 'Eula', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Eula.png', type1: 'cryo', gen: '1', star: '5*'},
+	{id: '037', name: 'Raiden Shogun', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Raiden.png', type1: 'electro', gen: '3', star: '5*'},
+	{id: '038', name: 'Sayu', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Sayu.png', type1: 'anemo', gen: '3', star: '4*'},
+	{id: '039', name: 'Sangonomiya Kokomi', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Kokomi.png', type1: 'hydro', gen: '3', star: '5*'},
+	{id: '040', name: 'Gorou', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Gorou.png', type1: 'geo', gen: '3', star: '4*'},
+	{id: '041', name: 'Sara', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Sara.png', type1: 'electro', gen: '3', star: '4*'},
+	{id: '042', name: 'Arataki Itto', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Itto.png', type1: 'geo', gen: '3', star: '5*'},
+	{id: '043', name: 'Yae Miko', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Miko.png', type1: 'electro', gen: '3', star: '5*'},
+	{id: '044', name: 'Shikanoin Heizou', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Heizou.png', type1: 'anemo', gen: '3', star: '4*'},
+	{id: '045', name: 'Yelan', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Yelan.png', type1: 'hydro', gen: '2', star: '5*'},
+	{id: '046', name: 'Kirara', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Kirara.png', type1: 'dendro', gen: '3', star: '4*'},
+	{id: '047', name: 'Aloy', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Aloy.png', type1: 'cryo', gen: '8', star: '5*'},
+	{id: '048', name: 'Shenhe', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Shenhe.png', type1: 'cryo', gen: '2', star: '5*'},
+	{id: '049', name: 'Yunjin', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Yunjin.png', type1: 'geo', gen: '2', star: '4*'},
+	{id: '050', name: 'Kuki Shinobu', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Shinobu.png', type1: 'electro', gen: '3', star: '4*'},
+	{id: '051', name: 'Kamisato Ayato', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Ayato.png', type1: 'hydro', gen: '3', star: '5*'},
+	{id: '052', name: 'Collei', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Collei.png', type1: 'dendro', gen: '4', star: '4*'},
+	{id: '053', name: 'Dori', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Dori.png', type1: 'electro', gen: '4', star: '4*'},
+	{id: '054', name: 'Tighnari', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Tighnari.png', type1: 'dendro', gen: '4', star: '5*'},
+	{id: '055', name: 'Nilou', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Nilou.png', type1: 'hydro', gen: '4', star: '5*'},
+	{id: '056', name: 'Cyno', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Cyno.png', type1: 'electro', gen: '4', star: '5*'},
+	{id: '057', name: 'Candace', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Candace.png', type1: 'hydro', gen: '4', star: '4*'},
+	{id: '058', name: 'Nahida', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Nahida.png', type1: 'dendro', gen: '4', star: '5*'},
+	{id: '059', name: 'Layla', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Layla.png', type1: 'cryo', gen: '4', star: '4*'},
+	{id: '060', name: 'Wanderer', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Wanderer.png', type1: 'anemo', gen: '4', star: '5*'},
+	{id: '061', name: 'Faruzan', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Faruzan.png', type1: 'anemo', gen: '4', star: '4*'},
+	{id: '062', name: 'Yaoyao', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Yaoyao.png', type1: 'dendro', gen: '2', star: '4*'},
+	{id: '063', name: 'Alhaitham', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Alhaitham.png', type1: 'dendro', gen: '4', star: '5*'},
+	{id: '064', name: 'Dehya', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Dehya.png', type1: 'pyro', gen: '4', star: '5*'},
+	{id: '065', name: 'Mika', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Mika.png', type1: 'cryo', gen: '1', star: '4*'},
+	{id: '066', name: 'Kaveh', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Kaveh.png', type1: 'dendro', gen: '4', star: '4*'},
+	{id: '067', name: 'Baizhu', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Baizhu.png', type1: 'dendro', gen: '2', star: '5*'},
+	{id: '068', name: 'Lynette', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Lynette.png', type1: 'anemo', gen: '5', star: '4*'},
+	{id: '069', name: 'Lyney', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Lyney.png', type1: 'pyro', gen: '5', star: '5*'},
+	{id: '070', name: 'Freminet', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Freminet.png', type1: 'cryo', gen: '5', star: '4*'},
+	{id: '071', name: 'Wriothesley', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Wriothesley.png', type1: 'cryo', gen: '5', star: '5*'},
+	{id: '072', name: 'Neuvillette', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Neuvillette.png', type1: 'hydro', gen: '5', star: '5*'},
+	{id: '073', name: 'Charlotte', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Charlotte.png', type1: 'cryo', gen: '5', star: '4*'},
+	{id: '074', name: 'Furina', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.0/Furina.png', type1: 'hydro', gen: '5', star: '5*'},
+	{id: '075', name: 'Navia', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Navia.png', type1: 'geo', gen: '5', star: '5*'},
+	{id: '076', name: 'Chevreuse', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Chevreuse.png', type1: 'pyro', gen: '5', star: '4*'},
+	{id: '077', name: 'Aether', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Aether.png', type1: 'anemo', gen: '8', star: '5*'},
+	{id: '078', name: 'Lumine', image: 'https://cdn.jsdelivr.net/gh/sfgrimshaw/genshin_picker@1.0.1/Lumine.png', type1: 'anemo', gen: '8', star: '5*'}
       ]
 
 var myPicker = new picker.Picker({
